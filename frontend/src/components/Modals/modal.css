@@ -1,0 +1,17 @@
+/* Fade-in and slide-in animation */
+.modal-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .modal-content.slide-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .modal-content.slide-out {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  

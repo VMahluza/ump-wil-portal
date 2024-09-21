@@ -12,7 +12,6 @@ const TablesPage = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Applications" />
-
       <div className="flex flex-col gap-10">
         <JobPostsTable />
       </div>

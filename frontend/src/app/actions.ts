@@ -7,10 +7,8 @@ import { cookies } from 'next/headers';
 export async function SignInUser(prevState: any, formData: FormData) {
     const username = formData.get('username');
     const password = formData.get('password');
-
     // Send the request to the API
     const res = await api.post("/api-auth/token/", { username, password });
-
     if (res.status === 200) {
         // Get cookies instance
         const cookieStore = cookies();
@@ -41,6 +39,106 @@ export async function SignInUser(prevState: any, formData: FormData) {
     } else {
         console.error('Unexpected response status:', res.status);
         return { message: 'Unexpected error. Please try again.' };
+    }
+}
+
+
+export async function AddJobPost(prevState:any, formData:FormData){
+
+    const name = formData.get('name');
+    const descripton = formData.get('descripton');
+    const closing_date = formData.get('closing_date');
+
+    console.log("FormData on Actions:");
+    console.log(name, descripton, closing_date)
+    const cookieStore = cookies();  
+    const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
+
+    const res = await api.post(
+        "/api/app/jobposts/", 
+        { 
+            name, 
+            descripton, 
+            closing_date 
+        }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,  // Add access token to headers
+                'Content-Type': 'application/json',  // Ensure JSON content type
+            },
+        });
+
+    if(res.status !== 201) {
+        return { message: 'Unexpected error. Please try again.' };
+    }
+
+}
+
+export async function GetJobPosts(){
+    const cookieStore = cookies();  
+    const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
+    try{
+        // Send a GET request to fetch all job posts
+        const res = await api.get('/api/app/jobposts/', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`, // Attach token to the request
+            },
+        });
+        if(res.status === 200) {
+            return res.data; // Return the fetched job posts
+        }
+    } catch(err) {
+        console.error('Error fetching job posts:', err);
+        return { error: 'Failed to fetch job posts. Please try again.' };
+    }
+}
+export async function GetJobPost(jobPostId: number){
+    const cookieStore = cookies();  
+    const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
+    try{
+        // Send a GET request to fetch all job posts
+        const res = await api.get(`/api/app/jobposts/${jobPostId}/`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`, // Attach token to the request
+            },
+        });
+        if(res.status === 200) {
+            return res.data; // Return the fetched job posts
+        }
+    } catch(err) {
+        console.error('Error fetching job posts:', err);
+        return { error: 'Failed to fetch job posts. Please try again.' };
+    }
+}
+export async function UpdateJobPost(prevState:any, formData:FormData){
+    
+    const cookieStore = cookies();  
+    const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
+    const id = formData.get('id');
+    const name = formData.get('name');
+    const descripton = formData.get('descripton');
+    const closing_date = formData.get('closing_date');
+
+    console.log("FormData on Actions In ID:" ,id );
+    try{
+        const res = await api.put(
+            `/api/app/jobposts/${id}/`, 
+            {
+                name,
+                descripton,
+                closing_date
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Attach token to the request
+                },
+            });
+        if(res.status === 200) {
+            return res.data; // Return the fetched job posts
+        }
+    } catch(err) {
+        console.error('Error fetching job posts:', err);
+        return { message: 'Failed to fetch job posts. Please try again.' };
     }
 }
 

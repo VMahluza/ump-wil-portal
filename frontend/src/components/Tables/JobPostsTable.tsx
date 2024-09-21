@@ -1,42 +1,38 @@
-import { Package } from "@/types/package";
-
-const packageData: Package[] = [
-  {
-    name: "Free package",
-    price: 0.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Business Package",
-    price: 99.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Unpaid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Pending",
-  },
-];
+'use client'
+import { useState, useEffect } from "react";
+import JobPostsModalForm from "../Modals/JobPostsModalForm";
+import JobPost from "@/types/jobpost";
+import { GetJobPosts } from "@/app/actions";
 
 const JobPostsTable = () => {
-  return (
-    
+  const [jobPosts, setJobPosts] = useState<JobPost[]>([])
+  const [isLoading, setLoading] = useState(false)
+  useEffect(() => {
+    const fetchJobPosts = async () => {
+      const data = await GetJobPosts();
+        if (!data.error) {
+            setJobPosts(data);
+        }
+        setLoading(false);
+    };
+    fetchJobPosts();
+  }, [])
+
+  const handleSubmitOnJobPostModal = async() => {
+    // Call the function to create a new job post
+    const data = await GetJobPosts();
+    if (!data.error) {
+      setJobPosts(data);
+    }
+  }
+
+  return ( 
     <div className="rounded-[10px] border border-stroke bg-white p-4 shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card sm:p-7.5">
       <div className="max-w-full overflow-x-auto p-4">
         <div className="flex justify-between items-center mb-4">
             {/* Create a New Application Request Button */}
-            <button className="flex items-center justify-center bg-primary px-6 py-3 text-white font-medium rounded-md shadow hover:bg-opacity-90 transition-all">
-            Create A New Application Request
-            </button>
+              {/* Button to trigger the modal */}
+              <JobPostsModalForm handleSubmitOnJobPostModal={handleSubmitOnJobPostModal}/>
 
             {/* Additional Controls */}
     <div className="flex gap-3">
@@ -58,46 +54,49 @@ const JobPostsTable = () => {
     </div>
     </div>
     </div>
-
-
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-[#F7F9FC] text-left dark:bg-dark-2">
-              <th className="min-w-[220px] px-4 py-4 font-medium text-dark dark:text-white xl:pl-7.5">
-                Package
+              <th className="min-w-[5px] px-4 py-4 font-medium text-dark dark:text-white xl:pl-7.5">
+                #
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white">
-                Invoice date
+                Job Name
               </th>
-              <th className="min-w-[120px] px-4 py-4 font-medium text-dark dark:text-white">
-                Status
+              <th className="min-w-[30px] px-4 py-4 font-medium text-dark dark:text-white">
+                Closing Date
               </th>
+              
               <th className="px-4 py-4 text-right font-medium text-dark dark:text-white xl:pr-7.5">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {packageData.map((packageItem, index) => (
+            {jobPosts.map((jobPost, index) => (
               <tr key={index}>
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === packageData.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <h5 className="text-dark dark:text-white">
-                    {packageItem.name}
+                    {jobPost.id}
                   </h5>
-                  <p className="mt-[3px] text-body-sm font-medium">
-                    ${packageItem.price}
-                  </p>
                 </td>
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === packageData.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
+                >
+                  <h5 className="text-dark dark:text-white">
+                    {jobPost.name}
+                  </h5>
+                </td>
+                <td
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <p className="text-dark dark:text-white">
-                    {packageItem.invoiceDate}
+                    {jobPost.closing_date}
                   </p>
                 </td>
-                <td
+                {/* <td
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === packageData.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <p
@@ -111,9 +110,9 @@ const JobPostsTable = () => {
                   >
                     {packageItem.status}
                   </p>
-                </td>
+                </td> */}
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === packageData.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <div className="flex items-center justify-end space-x-3.5">
                     <button className="hover:text-primary">
@@ -197,5 +196,4 @@ const JobPostsTable = () => {
     </div>
   );
 };
-
 export default JobPostsTable;
