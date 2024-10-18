@@ -1,0 +1,135 @@
+{% load static %}
+<!-- Styling -->
+<style>
+  .custom-btn {
+    background-color:#242853;
+    border: none;
+    color:white;padding: 15px 30px;
+    margin-top:20px;
+    border-radius:5px
+  }
+</style>
+<!-- end styling -->
+<!-- About Section -->
+<section id="about" class="about section">
+  <div class="container">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- start of application step 1 -->
+<div id="application-step1"> 
+  <h3>Step One</h3>
+  <p>
+      Fill in all fields with your Student details. You are not going to proceed to the next step if you are:
+  </p>
+  <ol>
+      <li>Students who are not enrolled in University of Mpumalanga Final year</li>
+      <li>Students who are not enrolled in Hospitality.</li>
+  </ol>
+  <hr>
+  <div class="row gy-4">
+      <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up" data-aos-delay="200">
+          <div style="display:none" id="first-part-of-step1">
+              <div class="col-md-12">
+                  {{ form.date_of_birth.label }}<span style="color:red">*</span>
+                  {{form.date_of_birth}}
+              </div>
+              <div class="col-md-12">
+                  {{ form.gender.label }}<span style="color:red">*</span>
+                  {{form.gender}}
+              </div>
+              <div class="col-md-12">
+                  {{ form.address.label }}<span style="color:red">*</span>
+                  {{form.address}}
+              </div>
+          </div>
+          {% comment %} <img src="{% static 'web/assets/img/ump/UMP-Hospitality-19.jpg' %}" class="img-fluid" alt=""> {% endcomment %}
+      </div>
+
+      <div class="col-lg-6 content order-last order-lg-first" data-aos="fade-up" data-aos-delay="100">
+          <div class="row gy-4">
+              <div class="col-md-12">
+                  {{ form.student_number.label }}<span style="color:red">*</span>
+                  {{form.student_number}}                  
+              </div>
+
+              <div id="second-part-of-step1" style="display:none">
+                  <div class="col-md-6">
+                      {{ form.first_name.label }}<span style="color:red">*</span>
+                      {{form.first_name}}
+                  </div>
+
+                  <div class="col-md-6">
+                      {{ form.last_name.label }}<span style="color:red">*</span>
+                      {{form.last_name}}                  
+                  </div>
+
+                  <div class="col-md-6">
+                      {{ form.email.label }}<span style="color:red">*</span>
+                      {{form.email}}
+                  </div>
+
+                  <div class="col-md-6">
+                      {{ form.phone.label }}<span style="color:red">*</span>
+                      {{form.phone}}                  
+                  </div>
+
+                  <div class="col-md-12 text-center">
+                      <button type="button" id="next-step-btn" class="custom-btn">Next</button>
+                  </div>
+              </div> <!-- Closing the second-part-of-step1 div -->
+          </div>
+      </div>
+  </div>
+</div>
+<!-- end of application step 1 -->
+
+      <!-- start of application step 1 -->
+      <div style="display:none" id="application-step2"> 
+        <div class="row gy-4">
+          <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up" data-aos-delay="200">
+            <img src="{% static 'web/assets/img/ump/UMP-Hospitality-19.jpg' %}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 content order-last  order-lg-first" data-aos="fade-up" data-aos-delay="100">
+            <h3>Step Two</h3>
+            <p>
+              Here, you need to upload your documents
+            </p>
+            <ol>
+              <li >All documents must be in a pdf format</li>
+              <li>All documents must not be larger than 3MB</li>
+            </ol>
+            <hr>
+            <div class="row gy-4">
+              <div class="col-md-12">
+                {{ form.year_of_study.label }}<span style="color:red">*<span>
+                {{form.year_of_study}}                  
+              </div>
+              <div class="col-md-6">
+                {{ form.resume_cv.label }}<span style="color:red">*<span>
+                {{form.resume_cv}}
+              </div>
+
+              <div class="col-md-6">
+                {{ form.qualifications.label }}<span style="color:red">*<span>
+                {{form.qualifications}}                  
+              </div>
+
+
+              <div class="col-md-12">
+                {{ form.other_documents.label }}<span style="color:rgb(0, 207, 97)">*<span>
+                {{form.other_documents}}
+              </div>
+              <div class="col-md-12 text-center">
+                <button type="submit" class="custom-btn">Submit application</button>
+                <button type="button" id="back-step-btn" class="custom-btn">Back</button>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <!-- end of application step 2 -->
+    </form>
+    {% comment %} this {% endcomment %}
+  </div>
+</section><!-- /About Section -->

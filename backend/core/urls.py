@@ -48,6 +48,8 @@ urlpatterns = [
     # APP API
     path('api/app/', include('api.urls')),
 
+    path('', include('web.urls'), name='web-urls'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:  # Dev only

@@ -1,0 +1,27 @@
+<!-- Services Section -->
+<section id="services" class="services section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Application Posts</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+        <div class="row gy-4">
+            {% for jobpost in job_posts %}       
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-item  position-relative">
+                <div class="icon">
+                    {{jobpost.id}}
+                </div>
+                <h3>Nesciunt Mete</h3>
+                <p style="margin-bottom:20px">{{jobpost.descripton}}</p>
+                <a href="service-details.html" style="background-color:#242853;color:white;padding: 15px 30px;margin-top:20px;border-radius:5px">Apply
+                </a>
+               
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section><!-- /Services Section -->
