@@ -28,5 +28,6 @@ class ApplicationForm(forms.ModelForm):
                 }
             )
         self.fields["date_of_birth"].widget = forms.DateInput(attrs={"type": "date", "class": "form-control",})
+        self.fields["year_of_study"].widget = forms.DateInput(attrs={"type": "date", "class": "form-control",})
 
         

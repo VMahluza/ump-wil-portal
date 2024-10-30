@@ -15,7 +15,6 @@ interface HeaderProps {
 
 
 const Header = ({ sidebarOpen, setSidebarOpen }: HeaderProps) => {
-
   const [user, setUser] = useState<User>();
   useEffect(() => {
     const fetchUser = async () => {

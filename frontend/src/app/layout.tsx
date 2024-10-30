@@ -12,12 +12,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [authenticatedUser, setAuthenticatedUser] = useState<User |null>(null);
-  const [auth, setAuth] = useState(false);
-
-
   // const pathname = usePathname();
 
   useEffect(() => {

@@ -40,7 +40,7 @@ const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: 
     const formData = new FormData();
     formData.append('id', jobPost.id?.toString());
     formData.append('name', name);
-    formData.append('description', description);
+    formData.append('descripton', description);
     formData.append('closing_date', closing_date);
 
     try {

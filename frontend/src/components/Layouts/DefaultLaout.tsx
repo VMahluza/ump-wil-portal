@@ -6,9 +6,10 @@ import User from "@/types/user";
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
+  user?: any; // Add user prop
 }
 
-export default function DefaultLayout({ children }: DefaultLayoutProps) {
+export default function DefaultLayout({ children , user}: DefaultLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>

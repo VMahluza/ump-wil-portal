@@ -24,12 +24,9 @@ studentNumberInputEl.onchange = (e) => {
             if(foundStudent){
                 firstPartOfStep1InputsEl.style.display = 'block';
                 secondPartOfStep1InputsEl.style.display = 'block';
-
                 firstNameInputEl.value = foundStudent.first_name
                 lastNameInputEl.value = foundStudent.last_name
-
             }
-
         })
         .catch(error => {
             console.error('Error fetching students:', error);

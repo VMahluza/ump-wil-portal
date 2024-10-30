@@ -1,59 +1,64 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import JobPostsModalForm from "../Modals/JobPostsModalForm";
 import JobPost from "@/types/jobpost";
 import { GetJobPosts } from "@/app/actions";
 
+import { useRouter } from "next/navigation";
+
 const JobPostsTable = () => {
-  const [jobPosts, setJobPosts] = useState<JobPost[]>([])
-  const [isLoading, setLoading] = useState(false)
+  const router = useRouter();
+  const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
+  const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     const fetchJobPosts = async () => {
       const data = await GetJobPosts();
-        if (!data.error) {
-            setJobPosts(data);
-        }
-        setLoading(false);
+      if (!data.error) {
+        setJobPosts(data);
+      }
+      setLoading(false);
     };
     fetchJobPosts();
-  }, [])
+  }, []);
 
-  const handleSubmitOnJobPostModal = async() => {
+  const handleSubmitOnJobPostModal = async () => {
     // Call the function to create a new job post
     const data = await GetJobPosts();
     if (!data.error) {
       setJobPosts(data);
     }
-  }
+  };
 
-  return ( 
+  return (
     <div className="rounded-[10px] border border-stroke bg-white p-4 shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card sm:p-7.5">
       <div className="max-w-full overflow-x-auto p-4">
-        <div className="flex justify-between items-center mb-4">
-            {/* Create a New Application Request Button */}
-              {/* Button to trigger the modal */}
-              <JobPostsModalForm handleSubmitOnJobPostModal={handleSubmitOnJobPostModal}/>
+        <div className="mb-4 flex items-center justify-between">
+          {/* Create a New Application Request Button */}
+          {/* Button to trigger the modal */}
+          <JobPostsModalForm
+            handleSubmitOnJobPostModal={handleSubmitOnJobPostModal}
+          />
 
-            {/* Additional Controls */}
-    <div className="flex gap-3">
-      {/* Search Box */}
-      <div className="relative">
-        <input 
-          type="text" 
-          className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          placeholder="Search..."
-        />
-      </div>
+          {/* Additional Controls */}
+          <div className="flex gap-3">
+            {/* Search Box */}
+            <div className="relative">
+              <input
+                type="text"
+                className="rounded-md border border-gray-300 px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Search..."
+              />
+            </div>
 
-    {/* Export Dropdown */}
-    <div className="relative">
-    <button className="bg-primary px-4 py-2 text-white rounded-md hover:bg-opacity-90 transition-all">
-        Export Options
-    </button>
-    {/* Dropdown can be added here if needed */}
-    </div>
-    </div>
-    </div>
+            {/* Export Dropdown */}
+            <div className="relative">
+              <button className="rounded-md bg-primary px-4 py-2 text-white transition-all hover:bg-opacity-90">
+                Export Options
+              </button>
+              {/* Dropdown can be added here if needed */}
+            </div>
+          </div>
+        </div>
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-[#F7F9FC] text-left dark:bg-dark-2">
@@ -66,7 +71,7 @@ const JobPostsTable = () => {
               <th className="min-w-[30px] px-4 py-4 font-medium text-dark dark:text-white">
                 Closing Date
               </th>
-              
+
               <th className="px-4 py-4 text-right font-medium text-dark dark:text-white xl:pr-7.5">
                 Actions
               </th>
@@ -78,16 +83,12 @@ const JobPostsTable = () => {
                 <td
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
-                  <h5 className="text-dark dark:text-white">
-                    {jobPost.id}
-                  </h5>
+                  <h5 className="text-dark dark:text-white">{jobPost.id}</h5>
                 </td>
                 <td
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
-                  <h5 className="text-dark dark:text-white">
-                    {jobPost.name}
-                  </h5>
+                  <h5 className="text-dark dark:text-white">{jobPost.name}</h5>
                 </td>
                 <td
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
@@ -115,7 +116,10 @@ const JobPostsTable = () => {
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <div className="flex items-center justify-end space-x-3.5">
-                    <button className="hover:text-primary">
+                    <button
+                      className="hover:text-primary"
+                      onClick={() => router.push(`/jobposts/${jobPost.id}`)}
+                    >
                       <svg
                         className="fill-current"
                         width="20"

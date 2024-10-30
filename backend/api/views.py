@@ -3,6 +3,11 @@ from django.shortcuts import render
 from rest_framework import generics
 from .models import JobPost, Application
 from .serializers import ApplicationSerializer, JobPostSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # List all job posts or create a new job post
 class JobPostListCreateView(generics.ListCreateAPIView):
@@ -70,3 +75,18 @@ def get_students(request):
 
     return JsonResponse({"students": students}, safe=False)
 
+
+class UpdateApplicationStatusView(APIView):
+    def patch(self, request, pk):
+        try:
+            application = Application.objects.get(pk=pk)
+        except Application.DoesNotExist:
+            return Response({"error": "Application not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update only the status field
+        new_status = request.data.get('status', None)
+        if new_status:
+            application.status = new_status
+            application.save()
+            return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        return Response({"error": "Status not provided"}, status=status.HTTP_400_BAD_REQUEST)

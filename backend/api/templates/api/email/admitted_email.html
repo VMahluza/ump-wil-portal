@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Confirmed - UMPWIL Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+        }
+        .header {
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h1 {
+            font-size: 22px;
+            color: #333333;
+        }
+        .content p {
+            font-size: 16px;
+            color: #666666;
+            line-height: 1.5;
+        }
+        .content a {
+            color: #003366;
+            text-decoration: none;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            color: #666666;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #003366;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header section with logo -->
+        <div class="header">
+            <img src="{{ company_logo_url }}" alt="UMP Logo">
+            <h2>UMPWIL Portal</h2>
+        </div>
+
+        <!-- Content section -->
+        <div class="content">
+            <h1>Admission Status Changed to {{ status }}</h1>
+            <p>Dear {{ fullname }},</p>
+            <p>Congratulations! Your admission status has been updated to <strong>{{ status }}</strong> on the UMPWIL Portal. We are excited to welcome you to this new chapter and will keep you updated with further details.</p>
+
+            <p>You have to acknowledge by clicking <span><a href="">here</a></span> within seven days to secure your space</p>
+            <p>For more information regarding your application, you can log in to the UMPWIL Portal at any time.</p>
+
+            <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@ump.ac.za">support@ump.ac.za</a>.</p>
+
+            <p>Thank you for choosing UMPWIL Portal, and we wish you success in this new journey!</p>
+
+            <p>Best regards,<br>The UMPWIL Team</p>
+        </div>
+
+        <!-- Footer section -->
+        <div class="footer">
+            <p>University of Mpumalanga, Mbombela Campus<br>Private Bag X11283, Mbombela, 1200, South Africa</p>
+            <p>For more information, visit our <a href="https://www.ump.ac.za">website</a> or contact <a href="mailto:support@ump.ac.za">support@ump.ac.za</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
