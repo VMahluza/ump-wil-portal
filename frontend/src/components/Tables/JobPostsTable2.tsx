@@ -3,12 +3,14 @@ import { useState } from "react";
 import JobPostsModalForm from "../Modals/JobPostsModalForm";
 import JobPost from "@/types/jobpost";
 import { GetJobPosts } from "@/app/actions";
+import { useRouter } from "next/navigation";
 
 interface JobPostsProps {
   jobPostsData: any;
 }
 const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
   const [jobPosts, setJobPosts] = useState<JobPost[]>(jobPostsData);
+  const router = useRouter();
 
   const handleSubmitOnJobPostModal = async () => {
     // Call the function to create a new job post
@@ -19,7 +21,10 @@ const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
   };
 
   return (
-    <div className="rounded-[10px] border border-stroke bg-white p-4 shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card sm:p-7.5">
+    <div
+      className="rounded-[10px] border border-stroke bg-white p-4 shadow-1
+    dark:border-dark-3 dark:bg-gray-dark dark:shadow-card sm:p-7.5"
+    >
       <div className="max-w-full overflow-x-auto p-4">
         <div className="mb-4 flex items-center justify-between">
           {/* Create a New Application Request Button */}
@@ -107,7 +112,9 @@ const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
                   <div className="flex items-center justify-end space-x-3.5">
                     <button
                       className="hover:text-primary"
-                      // onClick={() => router.push(`/jobposts/${jobPost.id}`)}
+                      onClick={() =>
+                        router.push(`/jobposts/jobposts/${jobPost.id}`)
+                      }
                     >
                       <svg
                         className="fill-current"

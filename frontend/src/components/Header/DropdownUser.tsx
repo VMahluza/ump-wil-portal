@@ -3,21 +3,29 @@ import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 import User from "@/types/user";
-import { signOutUser } from "@/app/actions";
+import { getLoggedInUser, signOutUser } from "@/app/actions";
 
 interface DropdownUserProps {
   user: User | undefined; // Add user prop
 }
 
-
-const DropdownUser = ({user}: DropdownUserProps) => {
+const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  
+  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await getLoggedInUser();
+      console.log(response);
+      if (response) {
+        setUser(response);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleLogOut = async () => {
-    await signOutUser()
-  }
+    await signOutUser();
+  };
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -26,6 +34,7 @@ const DropdownUser = ({user}: DropdownUserProps) => {
         className="flex items-center gap-4"
         href="#"
       >
+        {/* UserDropdownToggle */}
         <span className="h-12 w-12 rounded-full">
           <Image
             width={112}
@@ -39,7 +48,6 @@ const DropdownUser = ({user}: DropdownUserProps) => {
             className="overflow-hidden rounded-full"
           />
         </span>
-
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
           <span className="hidden lg:block">{user?.email} </span>
 
@@ -59,6 +67,7 @@ const DropdownUser = ({user}: DropdownUserProps) => {
             />
           </svg>
         </span>
+        {/* END UserDropdownToggle*/}
       </Link>
 
       {/* <!-- Dropdown Star --> */}
@@ -66,6 +75,7 @@ const DropdownUser = ({user}: DropdownUserProps) => {
         <div
           className={`absolute right-0 mt-7.5 flex w-[280px] flex-col rounded-lg border-[0.5px] border-stroke bg-white shadow-default dark:border-dark-3 dark:bg-gray-dark`}
         >
+          {/* DropdownOpen */}
           <div className="flex items-center gap-2.5 px-5 pb-5.5 pt-3.5">
             <span className="relative block h-12 w-12 rounded-full">
               <Image
@@ -92,6 +102,7 @@ const DropdownUser = ({user}: DropdownUserProps) => {
               </span>
             </span>
           </div>
+          {/* DropdownOpen */}
           <ul className="flex flex-col gap-1 border-y-[0.5px] border-stroke p-2.5 dark:border-dark-3">
             <li>
               <Link
@@ -154,7 +165,10 @@ const DropdownUser = ({user}: DropdownUserProps) => {
             </li>
           </ul>
           <div className="p-2.5">
-            <button onClick={handleLogOut} className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
+            <button
+              onClick={handleLogOut}
+              className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base"
+            >
               <svg
                 className="fill-current"
                 width="18"

@@ -2,5 +2,7 @@
 {% load static %}
 {% block content %}
 {% include "web/pages/application/hero.html" %}
-<a href="{% url 'update-application-status' %}?secrete_key={{ secrete_key }}"></a>
+<form action="{% url 'update-application-status' %}?secrete_key={{ secret_key }}" method="post">
+    <input type="submit" value="Acknowledge this Application">
+</form>
 {% endblock content %}

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import React from "react";
+
 import WelcomeScreen from "@/components/Auth/WelcomeScreen";
 import { Metadata } from "next";
 // import DefaultLayout from "@/components/Layouts/DefaultLaout";
@@ -12,25 +10,13 @@ export const metadata: Metadata = {
   description: "This is the login page for the UMPWIL portal Application",
 };
 
-
 const Page: React.FC = () => {
-
   return (
     <>
-      
-      <div className="flex h-screen items-center justify-center bg-white dark:bg-dark">
-          <div className="w-full xl:w-1/2">
-            <div className="w-full p-4 sm:p-12.5 xl:p-15">
-              <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
-                Sign In
-              </h1>
-              <Signin />
-            </div>
-          </div>
-          {/* The Welcome Screen Part */}
-
-          <WelcomeScreen />
-      </div>
+      <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
+        Sign In
+      </h1>
+      <Signin />
     </>
   );
 };

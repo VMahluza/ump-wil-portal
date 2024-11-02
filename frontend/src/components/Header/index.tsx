@@ -5,7 +5,7 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import SearchForm from "@/components/Header/SearchForm";
 import User from "@/types/user";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { getLoggedInUser } from "@/app/actions";
 
 interface HeaderProps {
@@ -13,20 +13,7 @@ interface HeaderProps {
   setSidebarOpen: (arg0: boolean) => void;
 }
 
-
 const Header = ({ sidebarOpen, setSidebarOpen }: HeaderProps) => {
-  const [user, setUser] = useState<User>();
-  useEffect(() => {
-    const fetchUser = async () => {
-        const response = await getLoggedInUser();
-        console.log(response)
-        if (response) {
-            setUser(response);
-        }
-    }; 
-    fetchUser();
-}, []);
-
   return (
     <header className="sticky top-0 z-999 flex w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">
       <div className="flex flex-grow items-center justify-between px-4 py-5 shadow-2 md:px-5 2xl:px-10">
@@ -106,9 +93,8 @@ const Header = ({ sidebarOpen, setSidebarOpen }: HeaderProps) => {
             <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}
           </ul>
-
           {/* <!-- User Area --> */}
-          <DropdownUser user={user}/>
+          <DropdownUser />
           {/* <!-- User Area --> */}
         </div>
       </div>

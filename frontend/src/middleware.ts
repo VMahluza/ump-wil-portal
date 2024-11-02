@@ -13,12 +13,14 @@ export async function middleware(request: NextRequest) {
   if (!accessToken) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
-  const loggedInUser = await getLoggedInUser();
-
-  console.log("Testing Middleware", loggedInUser);
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/profile/:path*", "/jobposts", "/jobposts/:path*", "/"],
+  matcher: [
+    "/profile/:path*",
+    "/jobposts/jobposts",
+    "/jobposts/jobposts/:path*",
+    "/",
+  ],
 };

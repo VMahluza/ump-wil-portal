@@ -1,16 +1,10 @@
 import uuid
 
 from django.db import models
-from django.template.defaultfilters import first
-from authentication.models import Intern
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from core.wsgi import application
-from .emailservices import ApplicationEmailService  # Email Service class
+from .emailservices import ApplicationEmailService
 from authentication.models import Intern
-# from .modelservices import create_student_user
-# Create your models here.
 
 class JobPost(models.Model):
     name = models.CharField(max_length=255)
@@ -23,6 +17,7 @@ def qualifications_directory_path(instance, filename):
     return "documents/qualifications/{0}/{1}".format(instance.student_number, filename)
 def other_documents_directory_path(instance, filename):
     return "documents/other/{0}/{1}".format(instance.student_number, filename)
+
 class Application(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -51,7 +46,7 @@ class Application(models.Model):
     )
     intern = models.ForeignKey(
         Intern,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="applications",
         null=True,
         blank=True,
@@ -87,16 +82,16 @@ class Application(models.Model):
         self.temporary_secret_key = str(uuid.uuid4())
         self.save()
 
+
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.status}"
 
-
-def create_intern_user(application :Application):
+def  create_intern_user(application):
     """
     This function creates an Intern Account Using Application Information
     """
-    if application.temporary_secret_key:
-        new_intern : Intern = Intern.objects.create_user(
+    if application.temporary_secret_key and not application.intern_id:
+        new_intern = Intern.objects.create_user(
             first_name = application.first_name,
             last_name = application.last_name,
             username = f"{application.student_number}@ump.ac.za",
@@ -104,9 +99,15 @@ def create_intern_user(application :Application):
             role = Intern.Role.INTERN
         )
         new_intern.set_password(application.temporary_secret_key)
+        print("new Intern ID:", new_intern.id)
+        print("Application ID", application.id)
+        application_with_user = Application.objects.get(id=application.id)
+        print("Found Application:", application_with_user)
+        application_with_user.intern_id = new_intern.id
+        print("Application Now to new Intern", application_with_user.intern_id)
         new_intern.save()
-        application.intern = new_intern
-
+        application_with_user.save()
+        print("Application Saved successfully")
 
 @receiver(post_save, sender=Application)
 def change_of_application_status(sender, instance : Application, created, **kwargs):
@@ -117,12 +118,19 @@ def change_of_application_status(sender, instance : Application, created, **kwar
     if instance.status == Application.Status.ADMITTED:
         if instance.temporary_secret_key is None:
             instance.generate_secret_key()
-        email_service.send_admission_email()
+            email_service.send_admission_email()
 
     if instance.status == Application.Status.ACKNOWLEDGED:
         print(instance.temporary_secret_key)
-        create_intern_user(instance)
+        print(instance.intern_id)
+        if instance.intern_id is None:
+            create_intern_user(instance)
         email_service.send_acknowledge_success_email()
 
     if instance.status == Application.Status.REJECTED:
         email_service.send_rejection_email()
+
+    if instance.status == Application.Status.PENDING:
+        if instance.temporary_secret_key is not None:
+            instance.temporary_secret_key = None
+            instance.save()

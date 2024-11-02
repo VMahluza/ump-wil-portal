@@ -5,6 +5,45 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
 // AUTHENTICATION
+export async function SignUpUser(prevState: any, formData: FormData) {
+  const secreteKey = formData.get("secreteKey");
+  const username = formData.get("username");
+  const password = formData.get("password");
+
+  // Send the request to the API
+  const accessTokenRes = await api.post("/api-auth/token/", {
+    username,
+    password: secreteKey,
+  });
+
+  if (accessTokenRes.status === 200) {
+    const accessToken = accessTokenRes.data.access;
+    const newIntenRes = await api.post(
+      "/api/app/new/intern",
+      {
+        secreteKey,
+        password,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Add access token to headers
+          "Content-Type": "application/json", // Ensure JSON content type
+        },
+      },
+    );
+
+    if (newIntenRes.status === 200) {
+      redirect("/auth/signin");
+    } else {
+      console.error("Unexpected response status:", newIntenRes.status);
+      return { message: "Unexpected error. Please try again." };
+    }
+  } else {
+    console.error("Unexpected response status:", accessTokenRes.status);
+    return { message: "Unexpected error. Please try again." };
+  }
+}
+
 export async function SignInUser(prevState: any, formData: FormData) {
   const username = formData.get("username");
   const password = formData.get("password");

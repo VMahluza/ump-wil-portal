@@ -1,26 +1,17 @@
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import ECommerce from "@/components/Dashboard/E-commerce";
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLaout";
-import JobPostsTable2 from "@/components/Tables/JobPostsTable2";
-import { GetJobPosts } from "@/app/actions";
-import { Suspense } from "react";
+import React from "react";
+
 export const metadata: Metadata = {
-  title: "Applications",
-  description: "",
+  title:
+    "Next.js E-commerce Dashboard Page | NextAdmin - Next.js Dashboard Kit",
+  description: "This is Next.js Home page for NextAdmin Dashboard Kit",
 };
 
-const TablesPage = async () => {
-  const jobPostsDataPromise = await GetJobPosts();
+export default function Home() {
   return (
-    <DefaultLayout>
-      <Breadcrumb pageName="Applications" />
-      <div className="flex flex-col gap-10">
-        <Suspense fallback={<div>Loading job posts...</div>}>
-          <JobPostsTable2 jobPostsData={jobPostsDataPromise} />
-        </Suspense>
-      </div>
-    </DefaultLayout>
+    <>
+      <ECommerce />
+    </>
   );
-};
-
-export default TablesPage;
+}

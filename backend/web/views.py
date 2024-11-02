@@ -1,13 +1,15 @@
-from django.http import HttpResponseForbidden
+from lib2to3.fixes.fix_input import context
+
+from django.http import HttpResponseForbidden, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.context_processors import request
 
-from api.forms import ApplicationStatusForm
 from api.models import JobPost 
 from django.views.generic.base import TemplateView
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from api.models import JobPost, Application
+from core.wsgi import application
 from .forms import ApplicationForm
 # Create your views here.
 class HomeView(TemplateView):
@@ -45,28 +47,18 @@ class ApplyingView(CreateView):
 
 class UpdateApplicationStatus(TemplateView):
     template_name = "web/pages/application/update-status.html"
-
     def get_context_data(self, **kwargs):
         # Get the existing context data and add custom context for application and questionnaire
         context = super().get_context_data(**kwargs)
+        secret_key = self.request.GET.get("secrete_key")
+        print(secret_key)
+        context['secret_key'] =secret_key
         return context
 
-    def get_object(self, queryset=None):
-        # Fetch the application based on the ID in the URL
-        temp_secrete_key = self.request.GET.get("secrete_key")
-        print(temp_secrete_key)
-        return get_object_or_404(Application, id=3)
+    def post(self, request, **kwargs):
+        secret_key = self.request.GET.get("secrete_key")
+        application = get_object_or_404(Application, temporary_secret_key=secret_key)
+        application.status = Application.Status.ACKNOWLEDGED
+        application.save()
+        return HttpResponse("Acknowledged Successfully")
 
-    def get(self, request, *args, **kwargs):
-        def get(self, request, *args, **kwargs):
-            # Access the 'secrete_key' query parameter
-            secret_key = self.request.GET.get("secrete_key")
-            if not secret_key:
-                return HttpResponseForbidden("Secret key is required.")
-
-            # Additional logic to verify the secret key, if needed
-            # For example, retrieve the application based on the secret key
-            application = get_object_or_404(Application, temporary_secret_key=secret_key)
-            if application:
-                application.status = Application.Status.ACKNOWLEDGED
-            return super().get(request, *args, **kwargs)

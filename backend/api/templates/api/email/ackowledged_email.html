@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Status - UMPWIL Portal</title>
+    <title>Application Acknowledgment - UMPWIL Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,6 +44,16 @@
             color: #003366;
             text-decoration: none;
         }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #003366;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
         .footer {
             background-color: #f4f4f4;
             color: #666666;
@@ -67,17 +77,19 @@
 
         <!-- Content section -->
         <div class="content">
-            <h1>Application Status Update: {{ status }}</h1>
+            <h1>Application Acknowledgment Successful!</h1>
             <p>Dear {{ fullname }},</p>
-            <p>We regret to inform you that after careful consideration, your application status has been updated to <strong>{{ status }}</strong> on the UMPWIL Portal.</p>
+            <p>We are pleased to inform you that you have successfully acknowledged your application. Your account is now fully set up and ready for use on the UMPWIL Portal.</p>
 
-            <p>While this opportunity did not work out, we encourage you to stay engaged and apply for future openings. We value your interest in UMPWIL and your commitment to your professional journey.</p>
+            <p>You can now access all the features available to our members, including tracking your application status, applying for new positions, and more.</p>
 
             <p>If you have any questions or need further assistance, feel free to reach out to our team at <a href="mailto:support@ump.ac.za">support@ump.ac.za</a>.</p>
 
-            <p>Thank you for your application, and we wish you the best of luck in your future endeavors!</p>
+            <p>Thank you for your participation, and we look forward to supporting you on your journey!</p>
 
             <p>Best regards,<br>The UMPWIL Team</p>
+
+            <a href="http://127.0.0.1:8000/login" class="button">Sign In to Your Account</a>
         </div>
 
         <!-- Footer section -->

@@ -71,7 +71,7 @@
             <p>Dear {{ fullname }},</p>
             <p>Congratulations! Your admission status has been updated to <strong>{{ status }}</strong> on the UMPWIL Portal. We are excited to welcome you to this new chapter and will keep you updated with further details.</p>
 
-            <p>You have to acknowledge by clicking <span><a href="">here</a></span> within seven days to secure your space</p>
+            <p>You have to acknowledge by clicking <span><a href="http://localhost:8000/{% url 'update-application-status' %}?secrete_key={{ temporary_secret_key }}">here</a></span> within seven days to secure your space</p>
             <p>For more information regarding your application, you can log in to the UMPWIL Portal at any time.</p>
 
             <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@ump.ac.za">support@ump.ac.za</a>.</p>

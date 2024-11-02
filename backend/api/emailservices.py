@@ -28,8 +28,9 @@ class ApplicationEmailService:
 
     def send_admission_email(self):
         subject = f"Admission status changed to {self.application.status}"
-        self.send_email(subject, "api/email/admitted_email.html")
         self.context['temporary_secret_key'] = self.application.temporary_secret_key
+        print(self.context['temporary_secret_key'])
+
         try:
             html_content = render_to_string(template_name="api/email/admitted_email.html", context=self.context)
             msg = EmailMultiAlternatives(subject, "", self.from_email, [self.to_email])
@@ -39,7 +40,6 @@ class ApplicationEmailService:
             print(f"Failed to send email: {e}")
 
     def send_rejection_email(self):
-        
         subject = f"Application status changed to {self.application.status}"
         self.send_email(subject, "api/email/rejected_email.html")
 

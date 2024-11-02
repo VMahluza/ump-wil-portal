@@ -2,12 +2,15 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import generics
 from .models import JobPost, Application
-from .serializers import ApplicationSerializer, JobPostSerializer
+from .serializers import ApplicationSerializer, JobPostSerializer, SignUpSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.hashers import make_password
+from .models import Application, Intern
 
 # List all job posts or create a new job post
 class JobPostListCreateView(generics.ListCreateAPIView):
@@ -75,7 +78,6 @@ def get_students(request):
 
     return JsonResponse({"students": students}, safe=False)
 
-
 class UpdateApplicationStatusView(APIView):
     def patch(self, request, pk):
         try:
@@ -90,3 +92,30 @@ class UpdateApplicationStatusView(APIView):
             application.save()
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
         return Response({"error": "Status not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+class InternAccountsSetUpView(APIView):
+    application = None
+    def post(self, request):
+        serializer = SignUpSerializer(data=request.data)
+        if serializer.is_valid():
+
+            secrete_key = serializer.validated_data.get("secreteKey")
+            password = serializer.validated_data.get("password")
+
+            print(secrete_key, password)
+            # Find application by secreteKey
+            application = get_object_or_404(Application, temporary_secret_key=secrete_key)
+
+            if not application.intern:
+                return Response({"message": "No intern linked to this application."},
+                                status=status.HTTP_404_NOT_FOUND)
+            # Retrieve the intern user associated with the application
+            intern_user : Intern = application.intern
+            intern_user.set_password(password)
+            intern_user.save()
+
+            # Remove temporary secret key after successful sign-up
+            application.temporary_secret_key = None
+            application.save()
+
+            return Response({"message": "Account created successfully."}, status=status.HTTP_200_OK)

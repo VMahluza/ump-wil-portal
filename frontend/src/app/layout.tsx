@@ -3,9 +3,10 @@ import "jsvectormap/dist/css/jsvectormap.css";
 import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
-import User from "@/types/user"
+import User from "@/types/user";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
+import DefaultLayout from "@/components/Layouts/DefaultLaout";
 
 export default function RootLayout({
   children,
@@ -16,9 +17,9 @@ export default function RootLayout({
   // const pathname = usePathname();
 
   useEffect(() => {
-    
-    setTimeout(() => {setLoading(false);}, 1000)
-
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   return (
