@@ -1,12 +1,14 @@
 from django.shortcuts import render
-from .models import User
-from rest_framework.generics import CreateAPIView
+from .models import User, Intern
+from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
+
+
 class CreateUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -32,3 +34,5 @@ class LogoutView(APIView):
             return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+# List all job posts or create a new job post

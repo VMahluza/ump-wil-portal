@@ -7,6 +7,7 @@ from .emailservices import ApplicationEmailService
 from authentication.models import Intern
 
 class JobPost(models.Model):
+    objects = None
     name = models.CharField(max_length=255)
     descripton = models.CharField(max_length=255)
     closing_date = models.DateField()

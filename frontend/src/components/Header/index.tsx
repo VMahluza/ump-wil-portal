@@ -6,7 +6,7 @@ import Image from "next/image";
 import SearchForm from "@/components/Header/SearchForm";
 import User from "@/types/user";
 import { useEffect, useState } from "react";
-import { getLoggedInUser } from "@/app/actions";
+import { getLoggedInUser } from "@/lib/data/actions";
 
 interface HeaderProps {
   sidebarOpen: string | boolean | undefined;

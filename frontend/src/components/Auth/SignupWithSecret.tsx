@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
 
-import { SignInUser, SignUpUser } from "@/app/actions";
+import { SignInUser, SignUpUser } from "@/lib/data/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -4,7 +4,7 @@ import ApplicationDetails from "@/components/Applications/ApplicationDetails";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import { Application } from "@/types/applications";
-import { GetApplication } from "@/app/actions";
+import { GetApplication } from "@/lib/data/actions";
 import { Suspense } from "react";
 
 export default async function Page({ params }: { params: { id: number } }) {

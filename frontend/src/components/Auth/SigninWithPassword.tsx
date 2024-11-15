@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
 
-import { SignInUser } from "@/app/actions";
+import { SignInUser } from "@/lib/data/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -31,18 +31,16 @@ export default function SigninWithPassword() {
       const response = await SignInUser(state, formData);
       if (response?.message) {
         setError(response.message);
-      } else {
-        router.push("/");
       }
-    } catch (err) {
-      setError("Login failed. Please check your credentials.");
+    } catch (err: any) {
+      setError("Error Logging in :" + err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={formAction} onSubmit={handleSubmit}>
       {/* {error && <div className="text-bold text-red-500">{error}</div>} */}
       <div className="text-bold text-red-500">{error}</div>
       <div className="mb-4">

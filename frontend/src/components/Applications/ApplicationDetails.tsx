@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Application } from "@/types/applications";
-import { UpdateApplicationStatus } from "@/app/actions";
+import { UpdateApplicationStatus } from "@/lib/data/actions";
 
 type ApplicationDetailsProps = {
   application: Application;
@@ -34,59 +34,64 @@ const ApplicationDetails = ({ application }: ApplicationDetailsProps) => {
   return (
     <>
       {/* Personal Information */}
-      <section className="col-span-12 rounded-[10px] bg-white px-7.5 pb-6 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-7">
-        <h2 className="mb-4 text-2xl font-semibold">Personal Information</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <h5 className="block font-bold">First Name:</h5>
+      <section className="col-span-12 transform rounded-lg bg-white px-8 py-8 shadow-lg dark:bg-gray-800 dark:shadow-2xl xl:col-span-7">
+        <h2 className="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-100">
+          Personal Information
+        </h2>
+
+        <div className="grid grid-cols-1 gap-y-6 text-gray-700 dark:text-gray-300 md:grid-cols-2 md:gap-x-8">
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">First Name:</span>
             <p>{application.first_name}</p>
           </div>
-          <div>
-            <h5 className="block font-bold">Last Name:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Last Name:</span>
             <p>{application.last_name}</p>
           </div>
-          <div>
-            <h5 className="block font-bold">Student Number:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Student Number:</span>
             <p>{application.student_number}</p>
           </div>
-          <div>
-            <h5 className="block font-bold">Email:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Email:</span>
             <p>{application.email}</p>
           </div>
-          <div>
-            <h5 className="block font-bold">Phone:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Phone:</span>
             <p>{application.phone}</p>
           </div>
-          <div>
-            <h5 className="block text-sm font-bold">Date of Birth:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Date of Birth:</span>
             <p>{application.date_of_birth}</p>
           </div>
-          <div>
-            <h5 className="block font-bold">Gender:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Gender:</span>
             <p>{application.gender}</p>
           </div>
-          <div>
-            <h5 className="block  font-bold">Address:</h5>
+          <div className="flex items-center space-x-4">
+            <span className="font-bold">Address:</span>
             <p>{application.address}</p>
           </div>
         </div>
       </section>
 
       {/* Academic Information */}
-      <section className="rounded-lg border p-6 ">
+      <section className="col-span-12 transform rounded-lg bg-white px-8 py-8 shadow-lg dark:bg-gray-800 dark:shadow-2xl xl:col-span-7">
         <h2 className="mb-4 text-2xl font-semibold">Academic Information</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="dark:text-gray-300 md:grid-cols-2 md:gap-x-8">
           <div>
             <h5 className="block font-medium">Year of Study:</h5>
-            <p className="text-dark-3">{application.year_of_study}</p>
+            <p className="text-dark-3 dark:text-gray-300">
+              {application.year_of_study}
+            </p>
           </div>
           <div>
             <h5 className="block text-sm font-medium">Job Post Applied For:</h5>
-            <p className="text-dark-3">Post 1</p>
+            <p className="text-dark-3 dark:text-gray-300">Post 1</p>
           </div>
-          
         </div>
-        <br /><br />
+        <br />
+        <br />
         <hr />
         <div>
           {/* Status change */}

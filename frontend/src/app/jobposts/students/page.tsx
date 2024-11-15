@@ -2,21 +2,24 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import JobPostsTable2 from "@/components/Tables/JobPostsTable2";
-import { GetJobPosts } from "@/lib/data/actions";
+import getAllInterns, { GetJobPosts } from "@/lib/data/actions";
 import { Suspense } from "react";
+import StudentAccountsTable from "@/components/Tables/StudentAccountsTable";
 export const metadata: Metadata = {
-  title: "Applications",
+  title: "Intern Accounts",
   description: "",
 };
 
 const TablesPage = async () => {
-  const jobPostsDataPromise = await GetJobPosts();
+  const studentAccountsDataPromise = await getAllInterns();
   return (
     <>
-      <Breadcrumb pageName="Job Posts" />
+      <Breadcrumb pageName="Intern Accounts" />
       <div className="flex flex-col gap-10">
         <Suspense fallback={<div>Loading job posts...</div>}>
-          <JobPostsTable2 jobPostsData={jobPostsDataPromise} />
+          <StudentAccountsTable
+            studentAccountsData={studentAccountsDataPromise}
+          />
         </Suspense>
       </div>
     </>

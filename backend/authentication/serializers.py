@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Intern
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,3 +17,4 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+

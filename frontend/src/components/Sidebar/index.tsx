@@ -1,24 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import menuGroups from "@/components/utils/menu/menuGroups";
+import {
+  menuGroups,
+  studentMenuGroups,
+  initMenuGroups,
+} from "@/components/utils/menu/menuGroups";
+import { getLoggedInUser } from "@/lib/data/actions";
+import User from "@/types/user";
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
 
-
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
-
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  const [menu, setMenu] = useState(initMenuGroups);
+
+  useEffect(() => {
+    async function ChangeMenu() {
+      await getLoggedInUser().then((user: User) => {
+        if (user.role == "INTERN") setMenu(studentMenuGroups);
+        if (user.role == "ADMIN") setMenu(menuGroups);
+      });
+    }
+    ChangeMenu();
+  }, [setMenu]);
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -77,7 +92,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-1 px-4 lg:px-6">
-            {menuGroups.map((group, groupIndex) => (
+            {menu.map((group, groupIndex) => (
               <div key={groupIndex}>
                 <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
                   {group.name}

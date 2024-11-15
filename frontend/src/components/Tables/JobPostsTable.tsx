@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import JobPostsModalForm from "../Modals/JobPostsModalForm";
 import JobPost from "@/types/jobpost";
-import { GetJobPosts } from "@/app/actions";
+import { GetJobPosts } from "@/lib/data/actions";
 
 import { useRouter } from "next/navigation";
 

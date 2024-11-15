@@ -5,6 +5,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/calendar" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/charts" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/forms" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/pages" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/tables" />
+      <excludeFolder url="file://$MODULE_DIR$/src/app/ui-elements" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

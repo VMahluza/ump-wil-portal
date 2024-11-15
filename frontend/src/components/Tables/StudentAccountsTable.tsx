@@ -4,21 +4,18 @@ import JobPostsModalForm from "../Modals/JobPostsModalForm";
 import JobPost from "@/types/jobpost";
 import { GetJobPosts } from "@/lib/data/actions";
 import { useRouter } from "next/navigation";
+import User from "@/types/user";
 
-interface JobPostsProps {
-  jobPostsData: any;
+interface StudentAccountsTableProps {
+  studentAccountsData: any;
 }
-const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
-  const [jobPosts, setJobPosts] = useState<JobPost[]>(jobPostsData);
-  const router = useRouter();
 
-  const handleSubmitOnJobPostModal = async () => {
-    // Call the function to create a new job post
-    const data = await GetJobPosts();
-    if (!data.error) {
-      setJobPosts(data);
-    }
-  };
+const StudentAccountsTable = ({
+  studentAccountsData,
+}: StudentAccountsTableProps) => {
+  const [studentAccounts, setStudentAccounts] =
+    useState<User[]>(studentAccountsData);
+  const router = useRouter();
 
   return (
     <div
@@ -29,9 +26,6 @@ const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
         <div className="mb-4 flex items-center justify-between">
           {/* Create a New Application Request Button */}
           {/* Button to trigger the modal */}
-          <JobPostsModalForm
-            handleSubmitOnJobPostModal={handleSubmitOnJobPostModal}
-          />
 
           {/* Additional Controls */}
           <div className="flex gap-3">
@@ -60,60 +54,48 @@ const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
                 #
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white">
-                Job Name
+                Full Name
               </th>
-              <th className="min-w-[30px] px-4 py-4 font-medium text-dark dark:text-white">
-                Closing Date
+              <th className="min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white">
+                Email
               </th>
-
               <th className="px-4 py-4 text-right font-medium text-dark dark:text-white xl:pr-7.5">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {jobPosts.map((jobPost, index) => (
+            {studentAccounts.map((studentAccount, index) => (
               <tr key={index}>
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === studentAccounts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
-                  <h5 className="text-dark dark:text-white">{jobPost.id}</h5>
+                  <h5 className="text-dark dark:text-white">
+                    {studentAccount.id}
+                  </h5>
                 </td>
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === studentAccounts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
-                  <h5 className="text-dark dark:text-white">{jobPost.name}</h5>
+                  <h5 className="text-dark dark:text-white">
+                    {studentAccount.first_name} {studentAccount.last_name}
+                  </h5>
                 </td>
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === studentAccounts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <p className="text-dark dark:text-white">
-                    {jobPost.closing_date}
+                    {studentAccount.email}
                   </p>
                 </td>
-                {/* <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === packageData.length - 1 ? "border-b-0" : "border-b"}`}
-                >
-                  <p
-                    className={`inline-flex rounded-full px-3.5 py-1 text-body-sm font-medium ${
-                      packageItem.status === "Paid"
-                        ? "bg-[#219653]/[0.08] text-[#219653]"
-                        : packageItem.status === "Unpaid"
-                          ? "bg-[#D34053]/[0.08] text-[#D34053]"
-                          : "bg-[#FFA70B]/[0.08] text-[#FFA70B]"
-                    }`}
-                  >
-                    {packageItem.status}
-                  </p>
-                </td> */}
                 <td
-                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === jobPosts.length - 1 ? "border-b-0" : "border-b"}`}
+                  className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === studentAccounts.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <div className="flex items-center justify-end space-x-3.5">
                     <button
                       className="hover:text-primary"
                       onClick={() =>
-                        router.push(`/jobposts/jobposts/${jobPost.id}`)
+                        router.push(`/jobposts/student/${studentAccount.id}`)
                       }
                     >
                       <svg
@@ -196,4 +178,5 @@ const JobPostsTable2 = ({ jobPostsData }: JobPostsProps) => {
     </div>
   );
 };
-export default JobPostsTable2;
+
+export default StudentAccountsTable;

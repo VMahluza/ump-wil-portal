@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/lib/services/constants";
 import { cookies } from "next/headers";
-import { getLoggedInUser } from "./app/actions";
+import { getLoggedInUser } from "./lib/data/actions";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {

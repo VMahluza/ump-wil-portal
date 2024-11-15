@@ -3,24 +3,23 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import User from "@/types/user";
-import { useEffect, useState } from 'react';
-import { getLoggedInUser } from "@/app/actions";
+import { useEffect, useState } from "react";
+import { getLoggedInUser } from "@/lib/data/actions";
 
-interface ProfileBoxProps {
-}
+interface ProfileBoxProps {}
 
-const ProfileBox  = ({} : ProfileBoxProps) => {
+const ProfileBox = ({}: ProfileBoxProps) => {
   const [user, setUser] = useState<User>();
   useEffect(() => {
     const fetchUser = async () => {
-        const response = await getLoggedInUser();
-        console.log(response)
-        if (response) {
-            setUser(response);
-        }
-    }; 
+      const response = await getLoggedInUser();
+      console.log(response);
+      if (response) {
+        setUser(response);
+      }
+    };
     fetchUser();
-}, []);
+  }, []);
   return (
     <>
       <div className="overflow-hidden rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">

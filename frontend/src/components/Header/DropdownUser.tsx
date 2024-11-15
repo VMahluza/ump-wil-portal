@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 import User from "@/types/user";
-import { getLoggedInUser, signOutUser } from "@/app/actions";
+import { getLoggedInUser, signOutUser } from "@/lib/data/actions";
 
 interface DropdownUserProps {
   user: User | undefined; // Add user prop

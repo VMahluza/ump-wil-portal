@@ -9,7 +9,7 @@ interface DefaultLayoutProps {
   user?: any; // Add user prop
 }
 
-export default function DefaultLayout({ children, user }: DefaultLayoutProps) {
+export default function StudentPortal({ children, user }: DefaultLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>

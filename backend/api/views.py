@@ -1,44 +1,43 @@
 from django.shortcuts import render
 # Create your views here.
-from rest_framework import generics
-from .models import JobPost, Application
-from .serializers import ApplicationSerializer, JobPostSerializer, SignUpSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .models import JobPost
+from .serializers import ApplicationSerializer, JobPostSerializer, SignUpSerializer, InternSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.hashers import make_password
 from .models import Application, Intern
 
 # List all job posts or create a new job post
-class JobPostListCreateView(generics.ListCreateAPIView):
+class JobPostListCreateView(ListCreateAPIView):
     queryset = JobPost.objects.all()
     serializer_class = JobPostSerializer
 
 # Retrieve, update, or delete a specific job post
-class JobPostDetailView(generics.RetrieveUpdateDestroyAPIView):
+class JobPostDetailView(RetrieveUpdateDestroyAPIView):
     queryset = JobPost.objects.all()
     serializer_class = JobPostSerializer
     lookup_field = 'pk'
 
     # List all applications or create a new application
-class ApplicationListCreateView(generics.ListCreateAPIView):
+class ApplicationListCreateView(ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
 # Retrieve, update, or delete a specific application
-class ApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ApplicationDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     lookup_field = 'pk'
-
-
-import random
-from django.http import JsonResponse
-
-from django.http import JsonResponse
+class InternAccountListCreateView(ListCreateAPIView):
+    queryset = Intern.intern.all()
+    serializer_class = InternSerializer
+class InternAccountDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Intern.intern.all()
+    serializer_class = InternSerializer
+    lookup_field = 'pk'
 
 def get_students(request):
     # Hard-coded list of 30 students
@@ -77,7 +76,6 @@ def get_students(request):
     ]
 
     return JsonResponse({"students": students}, safe=False)
-
 class UpdateApplicationStatusView(APIView):
     def patch(self, request, pk):
         try:

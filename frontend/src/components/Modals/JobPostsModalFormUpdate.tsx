@@ -1,22 +1,25 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import '@/components/Modals/modal.css'; // Import the custom CSS for animations
-import { AddJobPost, UpdateJobPost } from "@/app/actions";
+"use client";
+import React, { useEffect, useState } from "react";
+import "@/components/Modals/modal.css"; // Import the custom CSS for animations
+import { AddJobPost, UpdateJobPost } from "@/lib/data/actions";
 import { useFormState } from "react-dom";
-import JobPost from '@/types/jobpost';
+import JobPost from "@/types/jobpost";
 
 interface JobPostFormModalProps {
   handleSubmitOnJobPostModalUpdate: any;
   jobPost: JobPost;
 }
 
-const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: JobPostFormModalProps) => {
+const JobPostsModalFormUpdate = ({
+  handleSubmitOnJobPostModalUpdate,
+  jobPost,
+}: JobPostFormModalProps) => {
   // State hooks for form values
-  const [jobpoststate, formAction] = useFormState(AddJobPost, { message: '' });
+  const [jobpoststate, formAction] = useFormState(AddJobPost, { message: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  
+
   // Properly binding useState with inputs, initial values set from jobPost prop
   const [name, setName] = useState<string>(jobPost.name);
   const [description, setDescription] = useState<string>(jobPost.descripton);
@@ -38,10 +41,10 @@ const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: 
     setError(null);
 
     const formData = new FormData();
-    formData.append('id', jobPost.id?.toString());
-    formData.append('name', name);
-    formData.append('descripton', description);
-    formData.append('closing_date', closing_date);
+    formData.append("id", jobPost.id?.toString());
+    formData.append("name", name);
+    formData.append("descripton", description);
+    formData.append("closing_date", closing_date);
 
     try {
       const res = await UpdateJobPost(jobpoststate, formData);
@@ -53,7 +56,7 @@ const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: 
         handleCloseModal();
       }
     } catch (err) {
-      setError('Failed to update job post. Please try again.');
+      setError("Failed to update job post. Please try again.");
     }
   };
 
@@ -70,55 +73,63 @@ const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: 
       {/* Button to trigger the modal */}
       <button
         onClick={() => setIsModalOpen(true)}
-        className="flex items-center justify-center bg-primary px-6 py-3 text-white font-medium rounded-md shadow hover:bg-opacity-90 transition-all"
+        className="flex items-center justify-center rounded-md bg-primary px-6 py-3 font-medium text-white shadow transition-all hover:bg-opacity-90"
       >
         Update Job Application
       </button>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* Modal background */}
           <div
-            className={`fixed inset-0 bg-black transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-50'}`}
+            className={`fixed inset-0 bg-black transition-opacity duration-300 ${isClosing ? "opacity-0" : "opacity-50"}`}
             onClick={handleCloseModal}
           ></div>
 
           {/* Modal content with animation */}
-          <div className={`bg-white rounded-md shadow-lg p-6 z-50 w-1/3 modal-content ${isClosing ? 'slide-out' : 'slide-in'}`}>
-            <h2 className="text-xl font-bold mb-4">Update Job Post</h2>
+          <div
+            className={`modal-content z-50 w-1/3 rounded-md bg-white p-6 shadow-lg ${isClosing ? "slide-out" : "slide-in"}`}
+          >
+            <h2 className="mb-4 text-xl font-bold">Update Job Post</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Job Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Job Name
+                </label>
                 <input
                   type="text"
                   name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2"
                   required
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
                 <textarea
                   name="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full h-24"
+                  className="mt-1 h-24 w-full rounded-md border border-gray-300 p-2"
                   required
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Closing Date</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Closing Date
+                </label>
                 <input
                   type="date"
                   name="closing_date"
                   value={closing_date}
                   onChange={(e) => setClosingDate(e.target.value)}
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2"
                   required
                 />
               </div>
@@ -127,16 +138,16 @@ const JobPostsModalFormUpdate = ({ handleSubmitOnJobPostModalUpdate, jobPost }: 
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2"
+                  className="mr-2 rounded-md bg-gray-300 px-4 py-2 text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-primary text-white px-4 py-2 rounded-md"
+                  className="rounded-md bg-primary px-4 py-2 text-white"
                   disabled={loading}
                 >
-                  {loading ? 'Submitting...' : 'Submit'}
+                  {loading ? "Submitting..." : "Submit"}
                 </button>
               </div>
             </form>
