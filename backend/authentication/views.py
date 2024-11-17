@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import User, Intern
+from .models import User, Intern, HostEmployer
 from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, HostEmployerSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
@@ -13,6 +13,11 @@ class CreateUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class CreateHostEmployerUserView(CreateAPIView):
+    queryset = HostEmployer.host_employer.all()
+    serializer_class = HostEmployerSerializer
+    permission_classes = [IsAuthenticated]
 
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]

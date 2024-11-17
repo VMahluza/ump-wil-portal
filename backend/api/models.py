@@ -4,7 +4,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .emailservices import ApplicationEmailService
-from authentication.models import Intern
+from authentication.models import Intern, HostEmployer
+
 
 class JobPost(models.Model):
     objects = None
@@ -135,3 +136,18 @@ def change_of_application_status(sender, instance : Application, created, **kwar
         if instance.temporary_secret_key is not None:
             instance.temporary_secret_key = None
             instance.save()
+
+
+class Company(models.Model):
+    host_employer = models.ForeignKey(
+        HostEmployer,
+        on_delete=models.SET_NULL,
+        related_name="companies",
+        null=True,
+        blank=True,
+    )
+
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    closing_date = models.DateField()
+

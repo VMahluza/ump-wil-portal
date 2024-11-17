@@ -10,13 +10,12 @@ export const metadata: Metadata = {
 };
 
 const TablesPage = async () => {
-  const jobPostsDataPromise = await GetJobPosts();
   return (
     <>
       <Breadcrumb pageName="Job Posts" />
       <div className="flex flex-col gap-10">
         <Suspense fallback={<div>Loading job posts...</div>}>
-          <JobPostsTable2 jobPostsData={jobPostsDataPromise} />
+          <JobPostsTable2 />
         </Suspense>
       </div>
     </>

@@ -9,7 +9,6 @@ import { Suspense } from "react";
 
 export default async function Page({ params }: { params: { id: number } }) {
   const applicationData = await GetApplication(params.id);
-
   return (
     <div>
       <Breadcrumb pageName="Application Details" />

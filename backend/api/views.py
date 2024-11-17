@@ -1,8 +1,11 @@
 from django.shortcuts import render
 # Create your views here.
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import JobPost
-from .serializers import ApplicationSerializer, JobPostSerializer, SignUpSerializer, InternSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+
+from authentication.models import HostEmployer
+from authentication.serializers import HostEmployerSerializer
+from .models import JobPost, Company
+from .serializers import ApplicationSerializer, JobPostSerializer, SignUpSerializer, InternSerializer, CompanySerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -14,7 +17,6 @@ from .models import Application, Intern
 class JobPostListCreateView(ListCreateAPIView):
     queryset = JobPost.objects.all()
     serializer_class = JobPostSerializer
-
 # Retrieve, update, or delete a specific job post
 class JobPostDetailView(RetrieveUpdateDestroyAPIView):
     queryset = JobPost.objects.all()
@@ -25,19 +27,34 @@ class JobPostDetailView(RetrieveUpdateDestroyAPIView):
 class ApplicationListCreateView(ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-
 # Retrieve, update, or delete a specific application
 class ApplicationDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     lookup_field = 'pk'
+
+class CompanyListCreateView(ListCreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = Company
+
+class CompanyDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    lookup_field = 'pk'
+
+    # List all applications or create a new application
 class InternAccountListCreateView(ListCreateAPIView):
     queryset = Intern.intern.all()
     serializer_class = InternSerializer
+
 class InternAccountDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Intern.intern.all()
     serializer_class = InternSerializer
     lookup_field = 'pk'
+
+class HostEmployerAccounts(ListAPIView):
+    queryset = HostEmployer.host_employer.all()
+    serializer_class = HostEmployerSerializer
 
 def get_students(request):
     # Hard-coded list of 30 students

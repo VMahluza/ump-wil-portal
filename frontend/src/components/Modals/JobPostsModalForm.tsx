@@ -59,7 +59,7 @@ const JobPostFormModal = ({
       {/* Button to trigger the modal */}
       <button
         onClick={() => setIsModalOpen(true)}
-        className="flex items-center justify-center rounded-md bg-primary px-6 py-3 font-medium text-white shadow transition-all hover:bg-opacity-90"
+        className="flex items-center justify-center rounded-md bg-primary px-6 py-3 font-medium text-white shadow transition-all hover:bg-opacity-90 "
       >
         Create A New Application Request
       </button>
@@ -75,12 +75,12 @@ const JobPostFormModal = ({
 
           {/* Modal content with animation */}
           <div
-            className={`modal-content z-50 w-1/3 rounded-md bg-white p-6 shadow-lg ${isClosing ? "slide-out" : "slide-in"}`}
+            className={`modal-content z-50 w-1/3 rounded-md bg-white p-6 shadow-lg ${isClosing ? "slide-out" : "slide-in"} dark:border-dark-3 dark:bg-gray-dark dark:shadow-card`}
           >
             <h2 className="mb-4 text-xl font-bold">Create Job Post</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="mb-2.5 block font-medium text-dark dark:text-white">
                   Job Name
                 </label>
                 <input
@@ -88,26 +88,26 @@ const JobPostFormModal = ({
                   name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                   required
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="mb-2.5 block font-medium text-dark dark:text-white">
                   Description
                 </label>
                 <textarea
                   name="description"
                   value={descripton}
                   onChange={(e) => setDescripton(e.target.value)}
-                  className="mt-1 h-24 w-full rounded-md border border-gray-300 p-2"
+                  className="mt-1 h-24 w-full rounded-md border border-gray-300 p-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                   required
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="mb-2.5 block font-medium text-dark dark:text-white">
                   Closing Date
                 </label>
                 <input
@@ -115,7 +115,7 @@ const JobPostFormModal = ({
                   name="closing_date"
                   value={closing_date}
                   onChange={(e) => setClosingdDate(e.target.value)}
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                   required
                 />
               </div>

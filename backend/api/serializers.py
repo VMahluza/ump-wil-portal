@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from authentication.models import Intern
-from .models import JobPost, Application
+from .models import JobPost, Application, Company
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -17,16 +17,10 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = '__all__'
-
-        from rest_framework import serializers
-
-        class SignUpSerializer(serializers.Serializer):
-            secreteKey = serializers.CharField(max_length=36)
-            password = serializers.CharField(write_only=True, min_length=8)
-
-            def validate_secreteKey(self, value):
-                # Ensure the secret key format or any additional validation you need
-                return value
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
 
 class SignUpSerializer(serializers.Serializer):
     secreteKey = serializers.CharField(max_length=36)
